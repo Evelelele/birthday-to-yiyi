@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>一一 · 20岁生日</title>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1"></script>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#ffe9f0,#ffd9e6);
+    font-family:sans-serif;
+    overflow:hidden;
+}
+
+/* 卡片 */
+.card{
+    width:720px;
+    background:rgba(255,255,255,0.95);
+    border-radius:40px;
+    box-shadow:0 20px 40px rgba(0,0,0,0.15);
+    text-align:center;
+    padding:30px;
+}
+
+/* 蛋糕 */
+.cake{
+    margin:30px auto;
+    cursor:pointer;
+}
+
+.layer{
+    width:200px;
+    margin:auto;
+    border-radius:20px;
+    position:relative;
+}
+
+.top{
+    height:50px;
+    background:#ffd1a6;
+}
+
+.middle{
+    height:60px;
+    background:#ffb3b3;
+}
+
+.bottom{
+    height:70px;
+    background:#ffc4e1;
+}
+
+/* 奶油滴落 */
+.layer::after{
+    content:'';
+    position:absolute;
+    width:100%;
+    height:10px;
+    background:white;
+    top:0;
+    border-radius:10px;
+}
+
+/* 蜡烛 */
+.candle{
+    width:12px;
+    height:35px;
+    background:#ff6b6b;
+    position:absolute;
+    top:-35px;
+    left:50%;
+    transform:translateX(-50%);
+}
+
+.flame{
+    width:10px;
+    height:12px;
+    background:orange;
+    border-radius:50%;
+    position:absolute;
+    top:-12px;
+    left:1px;
+}
+
+.out .flame{display:none;}
+
+.tip{
+    margin-top:15px;
+}
+
+/* 信件 */
+.letter{
+    display:none;
+    margin-top:20px;
+    text-align:left;
+    line-height:1.8;
+    font-size:16px;
+    white-space:pre-wrap;
+}
+
+/* 爱心 */
+.heart{
+    text-align:center;
+    font-size:40px;
+    animation:beat 1s infinite;
+}
+
+@keyframes beat{
+    0%{transform:scale(1);}
+    50%{transform:scale(1.2);}
+    100%{transform:scale(1);}
+}
+
+/* 小鸡 */
+.chicken{
+    position:fixed;
+    bottom:10px;
+    left:-100px;
+    font-size:40px;
+    transition:2s;
+}
+.chicken.show{
+    left:20px;
+}
+
+/* 按钮 */
+button{
+    margin-top:20px;
+    padding:8px 20px;
+    border:none;
+    border-radius:20px;
+    background:#ffb3b3;
+    cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+<h1>🎂 一一生日快乐 🎂</h1>
+
+<div class="cake" id="cake">
+    <div class="layer top">
+        <div class="candle" id="candle">
+            <div class="flame"></div>
+        </div>
+    </div>
+    <div class="layer middle"></div>
+    <div class="layer bottom"></div>
+</div>
+
+<div class="tip">点击蛋糕许愿 🎂</div>
+
+<div class="letter" id="letter"></div>
+
+<div class="heart" id="heart" style="display:none;">❤️</div>
+
+<button onclick="reset()">再来一次</button>
+
+</div>
+
+<div class="chicken" id="chicken">🐥</div>
+
+<script>
+
+const text = `💌 一一：
+
+大二啦，我们已经一起住了一年多了。
+现在想想还挺神奇的，从一开始的陌生，到现在每天都能见到你。
+
+真的很开心能和你当室友。
+那些一起聊天、吐槽作业、各自忙碌的日子，其实都在慢慢变成很重要的回忆。
+
+你这个来自青岛的高个子长发女孩hhh，
+以后一定要带我去吃你说的饺子🥟，我已经记下来了。
+
+最近设计课应该挺累的吧，
+但你一直都有自己的节奏，这一点真的很厉害。
+希望你之后都顺顺利利，少熬一点夜（虽然不太现实哈哈）。
+
+20岁啦，
+希望你慢慢成为自己喜欢的大人。
+
+还有一个很重要的祝福：
+希望你早日找到一个
+又帅又温柔又对你好的人（我会帮你把关的👀）
+
+很幸运认识你，
+也很开心还能继续一起生活下去。
+
+—— 🐥`;
+
+let i=0;
+let isOpen=false;
+
+document.getElementById("cake").onclick=function(){
+if(isOpen)return;
+isOpen=true;
+
+// 吹蜡烛
+document.getElementById("candle").classList.add("out");
+
+// 彩带
+confetti({particleCount:150,spread:80});
+
+// 打字机
+let letter=document.getElementById("letter");
+letter.style.display="block";
+
+let timer=setInterval(()=>{
+letter.innerHTML+=text[i];
+i++;
+if(i>=text.length){
+clearInterval(timer);
+document.getElementById("heart").style.display="block";
+document.getElementById("chicken").classList.add("show");
+}
+},40);
+
+}
+
+function reset(){
+location.reload();
+}
+
+</script>
+
+</body>
+</html>
